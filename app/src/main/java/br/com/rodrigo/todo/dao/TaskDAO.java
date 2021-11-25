@@ -2,6 +2,7 @@ package br.com.rodrigo.todo.dao;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import br.com.rodrigo.todo.models.TaskModel;
@@ -15,5 +16,9 @@ public class TaskDAO {
 
     public void create(TaskModel... tasks) {
         TaskDAO.tasks.addAll(Arrays.asList(tasks));
+    }
+
+    public void replace(int initialPosition, int endPosition) {
+        Collections.swap(tasks, initialPosition, endPosition);
     }
 }

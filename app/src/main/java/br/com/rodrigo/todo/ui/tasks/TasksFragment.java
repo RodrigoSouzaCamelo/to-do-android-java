@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class TasksFragment extends Fragment {
     private TasksViewModel taksViewModel;
     private FragmentTasksBinding binding;
     private ListTasksAdapter adapter;
+    private List<TaskModel> allTasks;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -29,14 +31,24 @@ public class TasksFragment extends Fragment {
 
         binding = FragmentTasksBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        allTasks = getAllTasks();
 
-        List<TaskModel> allTasks = getAllTasks();
+        configRecyclerView(container);
 
+        return root;
+    }
+
+    private void configRecyclerView(ViewGroup container) {
         RecyclerView listTasks = binding.fragmentTasksListTasks;
         adapter = new ListTasksAdapter(container.getContext(), allTasks);
         listTasks.setAdapter(adapter);
+        configItemTouchHelper(listTasks);
+    }
 
-        return root;
+    private void configItemTouchHelper(RecyclerView listTasks) {
+        ItemTouchHelper itemTouchHelper =
+                new ItemTouchHelper(new TaskItemTouchHelper(adapter));
+        itemTouchHelper.attachToRecyclerView(listTasks);
     }
 
     private List<TaskModel> getAllTasks() {

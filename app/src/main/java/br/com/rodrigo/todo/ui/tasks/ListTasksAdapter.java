@@ -9,10 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Collections;
 import java.util.List;
+import br.com.rodrigo.todo.models.TaskModel;
 
 import br.com.rodrigo.todo.R;
-import br.com.rodrigo.todo.models.TaskModel;
 
 public class ListTasksAdapter extends RecyclerView.Adapter<ListTasksAdapter.ViewHolder> {
     private Context context;
@@ -41,6 +42,11 @@ public class ListTasksAdapter extends RecyclerView.Adapter<ListTasksAdapter.View
     @Override
     public int getItemCount() {
         return tasks.size();
+    }
+
+    public void replace(int initialPosition, int endPosition) {
+        Collections.swap(tasks, initialPosition, endPosition);
+        notifyItemMoved(initialPosition, endPosition);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
